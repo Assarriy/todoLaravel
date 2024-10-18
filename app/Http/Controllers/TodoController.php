@@ -61,6 +61,8 @@ class TodoController extends Controller
     public function edit(string $id)
     {
         //
+        $todo=Todo::where('id',$id)->first();
+        return view('edit-todo',compact('todo'));
     }
 
     /**
@@ -69,6 +71,20 @@ class TodoController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $validator = Validator::make($request->all(),[
+            'title' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('todos.edit', ['todo' => $id])->withErrors($validator);
+        }
+
+        $todo=Todo::where('id',$id)->first();
+        $todo->title=$request->get('title');
+        $todo->is_completed=$request->get('is_completed');
+        $todo->save();
+
+        return redirect()->route('todos.index')->with('success', 'Updated Todo');
     }
 
     /**
@@ -77,5 +93,7 @@ class TodoController extends Controller
     public function destroy(string $id)
     {
         //
+        Todo::where('id',$id)->delete();
+        return redirect()->route('todos.index')->with('success','Deleted Todo');
     }
 }

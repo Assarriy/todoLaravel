@@ -28,7 +28,7 @@
         </form>
     </div>
 
-    
+
     <div class="row justify-content-center mt-5">
         <div class="col-lg-6">
             @if(session()->has('success'))
@@ -79,8 +79,8 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a class="btn btn-info">Edit</a>
-                                    <a class="btn btn-danger">Delete</a>
+                                    <a href="{{route('todos.edit', ['todo' => $todo->id])}}" class="btn btn-info">Edit</a>
+                                    <a href="{{route('todos.destory', ['todo' => $todo->id])}}" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>
 
